@@ -10,6 +10,8 @@ const COLORS = {
 
 export default function SortingVisualizer() {
     const [counts, setCounts] = useState<number[]>([])
+    const [buttonVisibility, setButtonVisibility] = useState<boolean>(false)
+    const [generateArrButtonVisiblity, setGenerateArrButtonVisiblity] = useState<boolean>(false)
 
     /**
      * 
@@ -21,9 +23,13 @@ export default function SortingVisualizer() {
 
         for (let i = 0; i < count; i++) {
             array.push(Math.floor(Math.random() * 100) + 5)
+            const curElement: any = document.getElementById(i.toString())
+            if (curElement)
+                curElement.style.backgroundColor = COLORS.PRIMARY
         }
 
         setCounts(array)
+        setButtonVisibility(false)
         return array
     }
 
@@ -32,32 +38,41 @@ export default function SortingVisualizer() {
      * @param {number[]} array unsorted array of numbers
      * @returns {number[]} sorted array of numbers
      * 
-     * TO DO - fill out Description, time complexity, and space complexity
+     * Bubble Sort is the simplist sorting algorithm that works by repeatedly swapping the elements if they are in the wrong order.
      * 
-     * Time Complexity - O(nlogn)
-     * Space Complexity - O(n)
+     * Time Complexity - O(n^2)
+     * Space Complexity - O(1)
      */
-    const bubbleSort = (arr: number[]): void => {
+    const bubbleSort = (arr: number[]): void => {        
         const animArr: any[] = []
+        const unsortedArr = [...arr]
 
-        for(let i = 0; i < arr.length - 1; i++) {
-            for(let j = 0; j < arr.length - i - 1; j++) {
-                if (arr[j] > arr[j + 1]) {
+        for(let i = 0; i < unsortedArr.length - 1; i++) {
+            for(let j = 0; j < unsortedArr.length - i - 1; j++) {
+                if (unsortedArr[j] > unsortedArr[j + 1]) {
                     animArr.push([j, j + 1])
                     // Swap elements
-                    let temp = arr[j]
-                    arr[j] = arr[j + 1]
-                    arr[j + 1] = temp
+                    let temp = unsortedArr[j]
+                    unsortedArr[j] = unsortedArr[j + 1]
+                    unsortedArr[j + 1] = temp
                 }
             }
-            animArr.push([arr.length - i - 1, arr.length - i - 1])
-            if (arr.length - 2 === i) animArr.push([0, 0])
+            animArr.push([unsortedArr.length - i - 1, unsortedArr.length - i - 1])
+            if (unsortedArr.length - 2 === i) animArr.push([0, 0])
         }
 
         handleAnimations(animArr)
     }
 
+    /**
+     * 
+     * @param {any[]} animArr array of animation events
+     * 
+     * Loop through the animation array and update the bar chart accordingly via color changes and re-sizing
+     */
     const handleAnimations = (animArr: any[]): void => {
+        toggleButtons(true)
+
         animArr.forEach((anim, index) => {
             setTimeout(() => {
                 const [firstIndex, secondIndex] = anim
@@ -77,35 +92,46 @@ export default function SortingVisualizer() {
 
                         firstElement.style.backgroundColor = COLORS.PRIMARY
                         secondElement.style.backgroundColor = COLORS.PRIMARY
-                    }, 8)
+
+                        if (index === animArr.length - 1) {
+                            toggleButtons(false);
+                        }
+                    }, 18)
                 } else {
                     firstElement.style.backgroundColor = COLORS.SORTED
+                    if (index === animArr.length - 1) toggleButtons(false)
                 }
-            }, index * 10)
+            }, index * 20)
         })
     }
 
-    useEffect(() => {
-        generateNumbers(100)
-    }, [])
+    const toggleButtons = (visibility: boolean) => {
+        setGenerateArrButtonVisiblity(visibility)
+        setButtonVisibility(true)
+    }
 
+    useEffect(() => {
+        generateNumbers(50)
+    }, [])
+    
     return (
         <>
             <div>
-                <button onClick={() => {
-                    bubbleSort(counts)
-                }}>
+                <button onClick={() => generateNumbers(50)} disabled={generateArrButtonVisiblity}>
+                    Generate New Array
+                </button>
+                <button onClick={() => bubbleSort(counts)} disabled={buttonVisibility}>
                     Bubble Sort
                 </button>
             </div>
             <div className='array-container'>
-                {counts.map((num: any, index: any) => (
-                    <div key={num} id={index} className='array-bar' style={{
+                {counts.map((num, index) => (
+                    <div key={index} id={index.toString()} className='array-bar' style={{
                         backgroundColor: COLORS.PRIMARY,
                         height: `${num}px`,
                     }} />
                 ))}
             </div>
         </>
-    )
+    );
 }
