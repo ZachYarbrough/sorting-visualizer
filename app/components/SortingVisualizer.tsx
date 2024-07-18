@@ -4,8 +4,8 @@ import './SortingVisualizer.css'
 
 const COLORS = {
     PRIMARY: 'white',
-    SORTING: 'green',
-    SORTED: '#32CD32'
+    SORTING: '#f39c12',
+    SORTED: '#3498db'
 }
 
 export default function SortingVisualizer() {
@@ -19,9 +19,10 @@ export default function SortingVisualizer() {
     const generateNumbers = (count: number): any[] => {
         const array: any[] = []
 
-        for(let i = 0; i < count; i++) {
-            array.push([Math.floor(Math.random() * 100) + 5, i])
+        for (let i = 0; i < count; i++) {
+            array.push(Math.floor(Math.random() * 100) + 5)
         }
+
         setCounts(array)
         return array
     }
@@ -31,88 +32,56 @@ export default function SortingVisualizer() {
      * @param {number[]} array unsorted array of numbers
      * @returns {number[]} sorted array of numbers
      * 
-     * The merge sort algorithm follows the divide and conquer approach.
-     * It works by recursively dividing the input array into smaller sub arrays and sorting, then merging them back together.
+     * TO DO - fill out Description, time complexity, and space complexity
      * 
      * Time Complexity - O(nlogn)
      * Space Complexity - O(n)
      */
-    const mergeSort = (array: any[]): any[] => {
-        if (array.length <= 1) return array
-        const mid = Math.floor(array.length / 2)
-        const end = array.length
-
-        const leftArr = array.slice(0, mid)
-        const rightArr = array.slice(mid, end)
-
-        return merge(mergeSort(leftArr), mergeSort(rightArr))
-    }
-
-    /**
-     * 
-     * @param {number[]} leftArr unsorted array of numbers (0, mid) of original array
-     * @param {number[]} rightArr unsorted array of numbers (mid, end) of original array
-     * @returns  {number[]} sorted array of numbers
-     * 
-     * Helper function for merge sort that sorts the split arrays together
-     */
-    const merge = (leftArr: any[], rightArr: any[]) => {
-        const sortedArr: any[] = []
-        while(leftArr.length && rightArr.length) {
-            if (leftArr[0][0] <= rightArr[0][0]) {
-                // The bang (!) is a non-null asserter to prevent typescript errors
-                sortedArr.push(leftArr.shift()!)
-            } else {
-                sortedArr.push(rightArr.shift()!)
-            }
-        }
-
-        return [...sortedArr, ...leftArr, ...rightArr]
-    }
-
-    const bubbleSort = (arr: any[]) => {
+    const bubbleSort = (arr: number[]): void => {
         const animArr: any[] = []
 
-        for(let i = 1; i < arr.length; i++) {
-            for (let j = 1; j < arr.length; j++) {
-                animArr.push([arr[j - 1], arr[j], false])
-                if (arr[j - 1][0] > arr[j][0]) {
-
-                    animArr.push([arr[j - 1], arr[j], true])
-                    
-                    let temp: number = arr[j - 1]
-    
-                    arr[j - 1] = arr[j]
-                    arr[j] = temp
+        for(let i = 0; i < arr.length - 1; i++) {
+            for(let j = 0; j < arr.length - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    animArr.push([j, j + 1])
+                    // Swap elements
+                    let temp = arr[j]
+                    arr[j] = arr[j + 1]
+                    arr[j + 1] = temp
                 }
             }
+            animArr.push([arr.length - i - 1, arr.length - i - 1])
+            if (arr.length - 2 === i) animArr.push([0, 0])
         }
 
         handleAnimations(animArr)
-        return arr
     }
 
-    const handleAnimations = (animArr: any[]) => {
-        animArr.forEach((anim, i) => {
-            const firstIndex: number = anim[0][1]
-            const secondIndex: number = anim[1][1]
+    const handleAnimations = (animArr: any[]): void => {
+        animArr.forEach((anim, index) => {
+            setTimeout(() => {
+                const [firstIndex, secondIndex] = anim
+                const firstElement: any = document.getElementById(firstIndex.toString())
+                const secondElement: any = document.getElementById(secondIndex.toString())
 
-            const firstElement: any = document.getElementById(firstIndex.toString())
-            const secondElement: any = document.getElementById(secondIndex.toString())
-
-                setTimeout(() => {
+                if (firstIndex !== secondIndex) {
                     firstElement.style.backgroundColor = COLORS.SORTING
                     secondElement.style.backgroundColor = COLORS.SORTING
+
                     setTimeout(() => {
+                        const firstHeight = firstElement.style.height
+                        const secondHeight = secondElement.style.height
+
+                        firstElement.style.height = secondHeight
+                        secondElement.style.height = firstHeight
+
                         firstElement.style.backgroundColor = COLORS.PRIMARY
                         secondElement.style.backgroundColor = COLORS.PRIMARY
-
-                        // TO DO - Fix this issue
-                        if (anim[2]) {
-                            firstElement.style.height = `${anim[1][1]}px`
-                        }
                     }, 8)
-                }, i * 10)
+                } else {
+                    firstElement.style.backgroundColor = COLORS.SORTED
+                }
+            }, index * 10)
         })
     }
 
@@ -121,21 +90,22 @@ export default function SortingVisualizer() {
     }, [])
 
     return (
-      <>
-      <div>
-        <button onClick={() => {
-                bubbleSort(counts)
-            }}>Bubble Sort</button>
-      </div>
-        <div className='chart'>
-        {counts.map((num: any) => (
-            <div key={num[1]} id={num[1].toString()} className='bar' style={{
-                backgroundColor: COLORS.PRIMARY,
-                height: `${num[0]}px`,
-              }} />
-        ))}
-      </div>
-      </>
+        <>
+            <div>
+                <button onClick={() => {
+                    bubbleSort(counts)
+                }}>
+                    Bubble Sort
+                </button>
+            </div>
+            <div className='array-container'>
+                {counts.map((num: any, index: any) => (
+                    <div key={num} id={index} className='array-bar' style={{
+                        backgroundColor: COLORS.PRIMARY,
+                        height: `${num}px`,
+                    }} />
+                ))}
+            </div>
+        </>
     )
-  }
-  
+}
