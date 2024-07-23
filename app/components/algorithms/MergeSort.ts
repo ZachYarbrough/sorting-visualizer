@@ -10,21 +10,18 @@
  * Space Complexity - O(n)
  */
 export const mergeSort = (arr: number[]): any[] => {
-    const animArr: any[] = []
-    const midIndex: number = Math.floor(arr.length / 2)
+    const midIndex = Math.floor(arr.length / 2)
 
     const leftArr: number[] = arr.slice(0, midIndex)
     const rightArr: number[] = arr.slice(midIndex, arr.length - 1)
 
-    merge(mergeSort(leftArr), mergeSort(rightArr), animArr)
-
-    return animArr
+    return merge(mergeSort(leftArr), mergeSort(rightArr))
 }
 
-const merge = (leftArr: number[], rightArr: number[], animArr: any[]) => {
+const merge = (leftArr: number[], rightArr: number[]) => {
     const sortedArr: number[] = []
 
-    while(leftArr.length > 0 || rightArr.length > 0) {
+    while(leftArr.length > 0 && rightArr.length > 0) {
         if(leftArr[0] > rightArr[0]) {
             sortedArr.push(leftArr.shift()!)
         } else {

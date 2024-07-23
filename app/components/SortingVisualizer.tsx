@@ -3,6 +3,8 @@ import { useEffect, useState } from "react"
 import './SortingVisualizer.css'
 import { bubbleSort } from "./algorithms/BubbleSort"
 import { mergeSort } from "./algorithms/MergeSort"
+import { selectionSort } from "./algorithms/SelectionSort"
+
 
 const COLORS = {
     PRIMARY: '#ffffff',
@@ -43,39 +45,79 @@ export default function SortingVisualizer() {
      * 
      * Loop through the animation array and update the bar chart accordingly via color changes and re-sizing
      */
-    const handleAnimations = (animArr: any[]): void => {
+    const handleSortAnimations = (animArr: any[], type: string): void => {
         toggleButtons(true)
-
-        animArr.forEach((anim, index) => {
-            setTimeout(() => {
-                const [firstIndex, secondIndex] = anim
-                const firstElement: any = document.getElementById(firstIndex.toString())
-                const secondElement: any = document.getElementById(secondIndex.toString())
-
-                if (firstIndex !== secondIndex) {
-                    firstElement.style.backgroundColor = COLORS.SORTING
-                    secondElement.style.backgroundColor = COLORS.SORTING
-
+        switch (type.toLowerCase()) {
+            case 'bubble':
+                animArr.forEach((anim, index, type) => {
                     setTimeout(() => {
-                        const firstHeight = firstElement.style.height
-                        const secondHeight = secondElement.style.height
+                        const [firstIndex, secondIndex] = anim
+                        const firstElement: any = document.getElementById(firstIndex.toString())
+                        const secondElement: any = document.getElementById(secondIndex.toString())
 
-                        firstElement.style.height = secondHeight
-                        secondElement.style.height = firstHeight
+                        if (firstIndex !== secondIndex) {
+                            firstElement.style.backgroundColor = COLORS.SORTING
+                            secondElement.style.backgroundColor = COLORS.SORTING
 
-                        firstElement.style.backgroundColor = COLORS.PRIMARY
-                        secondElement.style.backgroundColor = COLORS.PRIMARY
+                            setTimeout(() => {
+                                const firstHeight = firstElement.style.height
+                                const secondHeight = secondElement.style.height
 
-                        if (index === animArr.length - 1) {
-                            toggleButtons(false);
+                                firstElement.style.height = secondHeight
+                                secondElement.style.height = firstHeight
+
+                                firstElement.style.backgroundColor = COLORS.PRIMARY
+                                secondElement.style.backgroundColor = COLORS.PRIMARY
+
+                                if (index === animArr.length - 1) {
+                                    toggleButtons(false);
+                                }
+                            }, 12)
+                        } else {
+                            firstElement.style.backgroundColor = COLORS.SORTED
+                            if (index === animArr.length - 1) toggleButtons(false)
                         }
-                    }, 12)
-                } else {
-                    firstElement.style.backgroundColor = COLORS.SORTED
-                    if (index === animArr.length - 1) toggleButtons(false)
-                }
-            }, index * 15)
-        })
+                    }, index * 15)
+                })
+                break
+                case 'selection':
+                    animArr.forEach((anim, index, type) => {
+                        setTimeout(() => {
+                            const [firstIndex, secondIndex, isSorted] = anim
+                            const nextSecondIndex = animArr[index + 1] && animArr[index + 1][1]
+                            const firstElement: any = document.getElementById(firstIndex.toString())
+                            const secondElement: any = document.getElementById(secondIndex.toString())
+    
+                            if (!isSorted) {
+                                firstElement.style.backgroundColor = COLORS.SORTING
+                                secondElement.style.backgroundColor = COLORS.SORTING
+    
+                                setTimeout(() => {
+                                    if (nextSecondIndex !== secondIndex) {
+                                        secondElement.style.backgroundColor = COLORS.PRIMARY
+                                    }
+                                    firstElement.style.backgroundColor = COLORS.PRIMARY
+    
+                                    if (index === animArr.length - 1) {
+                                        toggleButtons(false);
+                                    }
+                                }, 12)
+                            } else {
+                                const firstHeight = firstElement.style.height
+                                const secondHeight = secondElement.style.height
+
+                                firstElement.style.height = secondHeight
+                                secondElement.style.height = firstHeight
+
+                                secondElement.style.backgroundColor = COLORS.SORTED
+                                if (index === animArr.length - 1) toggleButtons(false)
+                            }
+                        }, index * 15)
+                    })
+                    break
+                case 'merge':
+                    break
+        }
     }
 
     const toggleButtons = (visibility: boolean) => {
@@ -86,7 +128,7 @@ export default function SortingVisualizer() {
     useEffect(() => {
         generateNumbers(50)
     }, [])
-    
+
     return (
         <>
             <div>
@@ -95,15 +137,21 @@ export default function SortingVisualizer() {
                 </button>
                 <button onClick={() => {
                     const animArr: any[] = bubbleSort(counts)
-                    handleAnimations(animArr)
+                    handleSortAnimations(animArr, 'bubble')
                 }} disabled={buttonVisibility}>
                     Bubble Sort
                 </button>
                 <button onClick={() => {
-                    const animArr: any[] = mergeSort(counts)
-                    handleAnimations(animArr)
+                    const arr: any[] = mergeSort(counts)
+                    console.log(arr)
                 }} disabled={buttonVisibility}>
-                    Bubble Sort
+                    Merge Sort
+                </button>
+                <button onClick={() => {
+                    const animArr: any[] = selectionSort(counts)
+                    handleSortAnimations(animArr, 'selection')
+                }} disabled={buttonVisibility}>
+                    Selection Sort
                 </button>
             </div>
             <div className='array-container'>
