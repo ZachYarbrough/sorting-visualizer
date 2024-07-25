@@ -4,13 +4,14 @@ import './SortingVisualizer.css'
 import { bubbleSort } from "./algorithms/BubbleSort"
 import { mergeSort } from "./algorithms/MergeSort"
 import { selectionSort } from "./algorithms/SelectionSort"
+import { insertionSort } from "./algorithms/InsertionSort"
 
 
 const COLORS = {
     PRIMARY: '#ffffff',
     SORTING: '#f39c12',
     SORTED: '#3498db',
-    PARTIALLY_SORTED: '#'
+    PARTIALLY_SORTED: '#6fc276'
 }
 
 export default function SortingVisualizer() {
@@ -93,11 +94,8 @@ export default function SortingVisualizer() {
                                 secondElement.style.backgroundColor = COLORS.SORTING
     
                                 setTimeout(() => {
-                                    if (nextSecondIndex !== secondIndex) {
-                                        secondElement.style.backgroundColor = COLORS.PRIMARY
-                                    }
                                     firstElement.style.backgroundColor = COLORS.PRIMARY
-    
+                                    
                                     if (index === animArr.length - 1) {
                                         toggleButtons(false);
                                     }
@@ -113,6 +111,56 @@ export default function SortingVisualizer() {
                                 if (index === animArr.length - 1) toggleButtons(false)
                             }
                         }, index * 15)
+                    })
+                    break
+                case 'insertion':
+                    animArr.forEach((anim, index, type) => {
+                        setTimeout(() => {
+                            const [firstIndex, secondIndex, isInserting] = anim
+                            const nextSecondIndex = animArr[index + 1] && animArr[index + 1][1]
+                            const firstElement: any = document.getElementById(firstIndex.toString())
+                            const secondElement: any = document.getElementById(secondIndex.toString())
+    
+                            if (!isInserting && firstIndex !== secondIndex) {
+                                firstElement.style.backgroundColor = COLORS.SORTING
+                                secondElement.style.backgroundColor = COLORS.PARTIALLY_SORTED
+    
+                                setTimeout(() => {
+                                    if (nextSecondIndex !== secondIndex) {
+                                        secondElement.style.backgroundColor = COLORS.PRIMARY
+                                        firstElement.style.backgroundColor = COLORS.PRIMARY
+                                    }
+    
+                                    if (index === animArr.length - 1) {
+                                        toggleButtons(false);
+                                    }
+                                }, 200)
+                            } else if (isInserting) {
+                                const firstHeight = firstElement.style.height
+                                const secondHeight = secondElement.style.height
+
+                                firstElement.style.height = secondHeight
+                                secondElement.style.height = firstHeight
+
+                                secondElement.style.backgroundColor = COLORS.SORTING
+                                if (nextSecondIndex !== secondIndex) {
+                                    firstElement.style.backgroundColor = COLORS.PARTIALLY_SORTED
+                                }
+                                setTimeout(() => {
+                                    if (nextSecondIndex !== secondIndex) {
+                                        secondElement.style.backgroundColor = COLORS.SORTED
+                                    }
+                                    firstElement.style.backgroundColor = COLORS.SORTED
+    
+                                    if (index === animArr.length - 1) {
+                                        toggleButtons(false);
+                                    }
+                                }, 220)
+                            } else {
+                                firstElement.style.backgroundColor = COLORS.SORTED
+                                if (index === animArr.length - 1) toggleButtons(false)
+                            }
+                        }, index * 250)
                     })
                     break
                 case 'merge':
@@ -152,6 +200,12 @@ export default function SortingVisualizer() {
                     handleSortAnimations(animArr, 'selection')
                 }} disabled={buttonVisibility}>
                     Selection Sort
+                </button>
+                <button onClick={() => {
+                    const animArr: any[] = insertionSort(counts)
+                    handleSortAnimations(animArr, 'insertion')
+                }} disabled={buttonVisibility}>
+                    Insertion Sort
                 </button>
             </div>
             <div className='array-container'>
