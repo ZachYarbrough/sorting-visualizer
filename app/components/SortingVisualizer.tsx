@@ -11,7 +11,7 @@ const COLORS = {
     PRIMARY: '#ffffff',
     SORTING: '#f39c12',
     SORTED: '#3498db',
-    PARTIALLY_SORTED: '#6fc276'
+    PARTIALLY_SORTED: '#34dbca'
 }
 
 export default function SortingVisualizer() {
@@ -73,12 +73,12 @@ export default function SortingVisualizer() {
                                 if (index === animArr.length - 1) {
                                     toggleButtons(false);
                                 }
-                            }, 12)
+                            }, 120)
                         } else {
                             firstElement.style.backgroundColor = COLORS.SORTED
                             if (index === animArr.length - 1) toggleButtons(false)
                         }
-                    }, index * 15)
+                    }, index * 150)
                 })
                 break
                 case 'selection':
@@ -88,18 +88,19 @@ export default function SortingVisualizer() {
                             const nextSecondIndex = animArr[index + 1] && animArr[index + 1][1]
                             const firstElement: any = document.getElementById(firstIndex.toString())
                             const secondElement: any = document.getElementById(secondIndex.toString())
-    
                             if (!isSorted) {
                                 firstElement.style.backgroundColor = COLORS.SORTING
                                 secondElement.style.backgroundColor = COLORS.SORTING
     
                                 setTimeout(() => {
-                                    firstElement.style.backgroundColor = COLORS.PRIMARY
-                                    
+                                    if (nextSecondIndex !== secondIndex) {
+                                        secondElement.style.backgroundColor = COLORS.PRIMARY
+                                    }
+                                    firstElement.style.backgroundColor = COLORS.PRIMARY                                    
                                     if (index === animArr.length - 1) {
                                         toggleButtons(false);
                                     }
-                                }, 12)
+                                }, 120)
                             } else {
                                 const firstHeight = firstElement.style.height
                                 const secondHeight = secondElement.style.height
@@ -110,7 +111,7 @@ export default function SortingVisualizer() {
                                 secondElement.style.backgroundColor = COLORS.SORTED
                                 if (index === animArr.length - 1) toggleButtons(false)
                             }
-                        }, index * 15)
+                        }, index * 150)
                     })
                     break
                 case 'insertion':
@@ -134,7 +135,7 @@ export default function SortingVisualizer() {
                                     if (index === animArr.length - 1) {
                                         toggleButtons(false);
                                     }
-                                }, 200)
+                                }, 120)
                             } else if (isInserting) {
                                 const firstHeight = firstElement.style.height
                                 const secondHeight = secondElement.style.height
@@ -155,12 +156,12 @@ export default function SortingVisualizer() {
                                     if (index === animArr.length - 1) {
                                         toggleButtons(false);
                                     }
-                                }, 220)
+                                }, 120)
                             } else {
                                 firstElement.style.backgroundColor = COLORS.SORTED
                                 if (index === animArr.length - 1) toggleButtons(false)
                             }
-                        }, index * 250)
+                        }, index * 150)
                     })
                     break
                 case 'merge':
@@ -174,13 +175,13 @@ export default function SortingVisualizer() {
     }
 
     useEffect(() => {
-        generateNumbers(50)
+        generateNumbers(20)
     }, [])
 
     return (
         <>
             <div>
-                <button onClick={() => generateNumbers(50)} disabled={generateArrButtonVisiblity}>
+                <button onClick={() => generateNumbers(20)} disabled={generateArrButtonVisiblity}>
                     Generate New Array
                 </button>
                 <button onClick={() => {

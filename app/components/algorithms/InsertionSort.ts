@@ -18,11 +18,17 @@ export const insertionSort = (arr: number[]): any[] => {
         let j = i - 1
         animArr.push([i, j])
 
-        while(j >= 0 && unsortedArr[j] >= currentValue) {
-            animArr.push([j + 1, j, true])
-            unsortedArr[j + 1] = unsortedArr[j];
-            j--;
+
+        if (unsortedArr[j] < currentValue && j >= 0) {
+            animArr.push([j, j, true])
+        } else {
+            while (j >= 0 && unsortedArr[j] >= currentValue) {
+                animArr.push([j + 1, j, true])
+                unsortedArr[j + 1] = unsortedArr[j];
+                j--;
+            }
         }
+
 
         animArr.push([j + 1, j + 1])
         unsortedArr[j + 1] = currentValue;
