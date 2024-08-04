@@ -52,7 +52,7 @@ export default function SortingVisualizer() {
             case 'bubble':
                 animArr.forEach((anim, index, type) => {
                     setTimeout(() => {
-                        const [firstIndex, secondIndex] = anim
+                        const [firstIndex, secondIndex, isHigher] = anim
                         const firstElement: any = document.getElementById(firstIndex.toString())
                         const secondElement: any = document.getElementById(secondIndex.toString())
 
@@ -61,14 +61,18 @@ export default function SortingVisualizer() {
                             secondElement.style.backgroundColor = COLORS.SORTING
 
                             setTimeout(() => {
-                                const firstHeight = firstElement.style.height
-                                const secondHeight = secondElement.style.height
+                                if (isHigher) {
+                                    const firstHeight = firstElement.style.height
+                                    const secondHeight = secondElement.style.height
 
-                                firstElement.style.height = secondHeight
-                                secondElement.style.height = firstHeight
+                                    firstElement.style.height = secondHeight
+                                    secondElement.style.height = firstHeight
+                                }
 
-                                firstElement.style.backgroundColor = COLORS.PRIMARY
-                                secondElement.style.backgroundColor = COLORS.PRIMARY
+                                if (animArr[index + 1][2] !== true) {
+                                    firstElement.style.backgroundColor = COLORS.PRIMARY
+                                    secondElement.style.backgroundColor = COLORS.PRIMARY
+                                }
 
                                 if (index === animArr.length - 1) {
                                     toggleButtons(false);
@@ -81,91 +85,91 @@ export default function SortingVisualizer() {
                     }, index * 150)
                 })
                 break
-                case 'selection':
-                    animArr.forEach((anim, index, type) => {
-                        setTimeout(() => {
-                            const [firstIndex, secondIndex, isSorted] = anim
-                            const nextSecondIndex = animArr[index + 1] && animArr[index + 1][1]
-                            const firstElement: any = document.getElementById(firstIndex.toString())
-                            const secondElement: any = document.getElementById(secondIndex.toString())
-                            if (!isSorted) {
-                                firstElement.style.backgroundColor = COLORS.SORTING
-                                secondElement.style.backgroundColor = COLORS.SORTING
-    
-                                setTimeout(() => {
-                                    if (nextSecondIndex !== secondIndex) {
-                                        secondElement.style.backgroundColor = COLORS.PRIMARY
-                                    }
-                                    firstElement.style.backgroundColor = COLORS.PRIMARY                                    
-                                    if (index === animArr.length - 1) {
-                                        toggleButtons(false);
-                                    }
-                                }, 120)
-                            } else {
-                                const firstHeight = firstElement.style.height
-                                const secondHeight = secondElement.style.height
+            case 'selection':
+                animArr.forEach((anim, index, type) => {
+                    setTimeout(() => {
+                        const [firstIndex, secondIndex, isSorted] = anim
+                        const nextSecondIndex = animArr[index + 1] && animArr[index + 1][1]
+                        const firstElement: any = document.getElementById(firstIndex.toString())
+                        const secondElement: any = document.getElementById(secondIndex.toString())
+                        if (!isSorted) {
+                            firstElement.style.backgroundColor = COLORS.SORTING
+                            secondElement.style.backgroundColor = COLORS.SORTING
 
-                                firstElement.style.height = secondHeight
-                                secondElement.style.height = firstHeight
-
-                                secondElement.style.backgroundColor = COLORS.SORTED
-                                if (index === animArr.length - 1) toggleButtons(false)
-                            }
-                        }, index * 150)
-                    })
-                    break
-                case 'insertion':
-                    animArr.forEach((anim, index, type) => {
-                        setTimeout(() => {
-                            const [firstIndex, secondIndex, isInserting] = anim
-                            const nextSecondIndex = animArr[index + 1] && animArr[index + 1][1]
-                            const firstElement: any = document.getElementById(firstIndex.toString())
-                            const secondElement: any = document.getElementById(secondIndex.toString())
-    
-                            if (!isInserting && firstIndex !== secondIndex) {
-                                firstElement.style.backgroundColor = COLORS.SORTING
-                                secondElement.style.backgroundColor = COLORS.PARTIALLY_SORTED
-    
-                                setTimeout(() => {
-                                    if (nextSecondIndex !== secondIndex) {
-                                        secondElement.style.backgroundColor = COLORS.PRIMARY
-                                        firstElement.style.backgroundColor = COLORS.PRIMARY
-                                    }
-    
-                                    if (index === animArr.length - 1) {
-                                        toggleButtons(false);
-                                    }
-                                }, 120)
-                            } else if (isInserting) {
-                                const firstHeight = firstElement.style.height
-                                const secondHeight = secondElement.style.height
-
-                                firstElement.style.height = secondHeight
-                                secondElement.style.height = firstHeight
-
-                                secondElement.style.backgroundColor = COLORS.SORTING
+                            setTimeout(() => {
                                 if (nextSecondIndex !== secondIndex) {
-                                    firstElement.style.backgroundColor = COLORS.PARTIALLY_SORTED
+                                    secondElement.style.backgroundColor = COLORS.PRIMARY
                                 }
-                                setTimeout(() => {
-                                    if (nextSecondIndex !== secondIndex) {
-                                        secondElement.style.backgroundColor = COLORS.SORTED
-                                    }
-                                    firstElement.style.backgroundColor = COLORS.SORTED
-    
-                                    if (index === animArr.length - 1) {
-                                        toggleButtons(false);
-                                    }
-                                }, 120)
-                            } else {
-                                firstElement.style.backgroundColor = COLORS.SORTED
-                                if (index === animArr.length - 1) toggleButtons(false)
+                                firstElement.style.backgroundColor = COLORS.PRIMARY
+                                if (index === animArr.length - 1) {
+                                    toggleButtons(false);
+                                }
+                            }, 120)
+                        } else {
+                            const firstHeight = firstElement.style.height
+                            const secondHeight = secondElement.style.height
+
+                            firstElement.style.height = secondHeight
+                            secondElement.style.height = firstHeight
+
+                            secondElement.style.backgroundColor = COLORS.SORTED
+                            if (index === animArr.length - 1) toggleButtons(false)
+                        }
+                    }, index * 150)
+                })
+                break
+            case 'insertion':
+                animArr.forEach((anim, index, type) => {
+                    setTimeout(() => {
+                        const [firstIndex, secondIndex, isInserting] = anim
+                        const nextSecondIndex = animArr[index + 1] && animArr[index + 1][1]
+                        const firstElement: any = document.getElementById(firstIndex.toString())
+                        const secondElement: any = document.getElementById(secondIndex.toString())
+
+                        if (!isInserting && firstIndex !== secondIndex) {
+                            firstElement.style.backgroundColor = COLORS.SORTING
+                            secondElement.style.backgroundColor = COLORS.PARTIALLY_SORTED
+
+                            setTimeout(() => {
+                                if (nextSecondIndex !== secondIndex) {
+                                    secondElement.style.backgroundColor = COLORS.PRIMARY
+                                    firstElement.style.backgroundColor = COLORS.PRIMARY
+                                }
+
+                                if (index === animArr.length - 1) {
+                                    toggleButtons(false);
+                                }
+                            }, 120)
+                        } else if (isInserting) {
+                            const firstHeight = firstElement.style.height
+                            const secondHeight = secondElement.style.height
+
+                            firstElement.style.height = secondHeight
+                            secondElement.style.height = firstHeight
+
+                            secondElement.style.backgroundColor = COLORS.SORTING
+                            if (nextSecondIndex !== secondIndex) {
+                                firstElement.style.backgroundColor = COLORS.PARTIALLY_SORTED
                             }
-                        }, index * 150)
-                    })
-                    break
-                case 'merge':
-                    break
+                            setTimeout(() => {
+                                if (nextSecondIndex !== secondIndex) {
+                                    secondElement.style.backgroundColor = COLORS.SORTED
+                                }
+                                firstElement.style.backgroundColor = COLORS.SORTED
+
+                                if (index === animArr.length - 1) {
+                                    toggleButtons(false);
+                                }
+                            }, 120)
+                        } else {
+                            firstElement.style.backgroundColor = COLORS.SORTED
+                            if (index === animArr.length - 1) toggleButtons(false)
+                        }
+                    }, index * 150)
+                })
+                break
+            case 'merge':
+                break
         }
     }
 

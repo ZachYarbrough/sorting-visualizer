@@ -14,9 +14,10 @@
 
         for(let i = 0; i < unsortedArr.length - 1; i++) {
             for(let j = 0; j < unsortedArr.length - i - 1; j++) {
+                animArr.push([j, j + 1])
                 if (unsortedArr[j] > unsortedArr[j + 1]) {
-                    animArr.push([j, j + 1])
                     // Swap elements
+                    animArr.push([j, j + 1, true])
                     let temp = unsortedArr[j]
                     unsortedArr[j] = unsortedArr[j + 1]
                     unsortedArr[j + 1] = temp

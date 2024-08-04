@@ -26,8 +26,6 @@ export const selectionSort = (arr: number[]): any[] => {
         }
         animArr.push([currentIndex, startingIndex, true])
 
-        animArr.push([currentIndex, currentIndex])
-
         const temp = unsortedArr[startingIndex]
         unsortedArr[startingIndex] = unsortedArr[currentIndex]
         unsortedArr[currentIndex] = temp
