@@ -1,4 +1,5 @@
 
 export const SORT_TYPE = {
     BUBBLE_SORT: 'BUBBLE_SORT',
+    INSERTION_SORT: 'INSERTION_SORT'
 }

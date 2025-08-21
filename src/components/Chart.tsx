@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { SORT_TYPE } from '../utils/config'
-import { BubbleSort } from '../utils/algorithms'
+import { BubbleSort, InsertionSort } from '../utils/algorithms'
 
 type AnimationState = {
     arr: number[]
@@ -18,38 +18,36 @@ const Chart = () => {
 
     const [speed, setSpeed] = useState<number>(100) // delay in ms
 
-    // cancel flag (persists across renders without re-rendering)
+    // Refs are used to dynamically update the chart mid visualization
     const cancelRef = useRef(false)
-
+    const sortingRef = useRef<Promise<void> | null>(null)
     const speedRef = useRef(speed)
-    useEffect(() => { speedRef.current = speed }, [speed])
 
-    useEffect(() => {
-	generateNewChartData()
-    }, [])
+    useEffect(() => { speedRef.current = speed }, [speed])
+    useEffect(() => { generateNewChartData() }, [])
 
     const resetChart = async () => {
 	cancelRef.current = true
-	await sortingRef.current // ✅ wait for the old loop to really stop
+	await sortingRef.current	    
 	setChartData({ arr: [...oldChartData], active: null, completed: [] })
     }
 
     const generateNewChartData = async () => {
 	cancelRef.current = true
-	await sortingRef.current // ✅ wait for the old loop to really stop
+	await sortingRef.current
 	const newArr = Array.from({ length: 25 }, () => Math.floor(Math.random() * 20) + 1)
 	setChartData({ arr: newArr, active: null, completed: [] })
 	setOldChartData(newArr)
     }
 
-    const sortingRef = useRef<Promise<void> | null>(null)
 
     const SortChartData = async (sortType: string) => {
 	// cancel any ongoing sort
 	cancelRef.current = true
-	await sortingRef.current // ✅ wait for the old loop to really stop
+	// wait for current sort step to complete
+	await sortingRef.current	    
 	cancelRef.current = false
-	
+
 	let arr = [...oldChartData]
 	let animations: AnimationState[] = []
 	let completed: number[] = []
@@ -59,15 +57,19 @@ const Chart = () => {
 		BubbleSort(arr, animations, completed)
 		break
 	    }
+	    case SORT_TYPE.INSERTION_SORT: {
+		InsertionSort(arr, animations, completed)
+		break
+	    }
 	    default:
 		break
-		
+
 	}
 
 	// store the active loop so we can await cancellation later
 	sortingRef.current = (async () => {
 	    for (let k = 0; k < animations.length; k++) {
-		if (cancelRef.current) return // ✅ exit cleanly
+		if (cancelRef.current) return 
 		    await new Promise((res) => setTimeout(res, speedRef.current))
 		setChartData(animations[k])
 	    }
@@ -104,6 +106,7 @@ return (
     <button onClick={generateNewChartData}>Generate New Chart</button>
     <button onClick={resetChart}>Reset Chart</button>
     <button onClick={() => SortChartData(SORT_TYPE.BUBBLE_SORT)}>Bubble Sort</button>
+    <button onClick={() => SortChartData(SORT_TYPE.INSERTION_SORT)}>Insertion Sort</button>
     <div style={{ marginTop: '1rem' }}>
     <label>
     Speed: 
