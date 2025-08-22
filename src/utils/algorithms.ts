@@ -33,15 +33,17 @@ export const InsertionSort = (
 	const key = arr[i]
 	let j = i - 1
 
-
 	// highlight the key
-	animations.push({ arr: [...arr], active: [i, i - 1], completed: [...completed] })
-
+	if (i === 1) {
+	    animations.push({ arr: [...arr], active: [i, i - 1], completed: [...completed] })
+	} else {
+	    animations.push({ arr: [...arr], active: [i], completed: [...completed] })
+	}
 	// shift elements to the right
 	while (j >= 0 && arr[j] > key) {
 	    arr[j + 1] = arr[j]
 	    arr[j] = key
-	    animations.push({ arr: [...arr], active: [j, j + 1], completed: [...completed] })
+	    animations.push({ arr: [...arr], active: [j], completed: [...completed] })
 	    j--
 	}
 

@@ -113,7 +113,7 @@ return (
 	<input
     type="range"
     min="10"
-    max="250"
+    max="500"
     step="10"
     value={speed}
     onChange={(e) => setSpeed(Number(e.target.value))}
