@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { SORT_TYPE } from '../utils/config'
-import { BubbleSort, InsertionSort } from '../utils/algorithms'
+import { BubbleSort, InsertionSort, SelectionSort } from '../utils/algorithms'
 
 type AnimationState = {
     arr: number[]
@@ -61,6 +61,10 @@ const Chart = () => {
 		InsertionSort(arr, animations, completed)
 		break
 	    }
+	    case SORT_TYPE.SELECTION_SORT: {
+		SelectionSort(arr, animations, completed)
+		break
+	    }
 	    default:
 		break
 
@@ -107,6 +111,7 @@ return (
     <button onClick={resetChart}>Reset Chart</button>
     <button onClick={() => SortChartData(SORT_TYPE.BUBBLE_SORT)}>Bubble Sort</button>
     <button onClick={() => SortChartData(SORT_TYPE.INSERTION_SORT)}>Insertion Sort</button>
+    <button onClick={() => SortChartData(SORT_TYPE.SELECTION_SORT)}>Selection Sort</button>
     <div style={{ marginTop: '1rem' }}>
     <label>
     Speed: 

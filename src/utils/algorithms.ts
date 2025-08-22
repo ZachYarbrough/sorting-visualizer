@@ -47,9 +47,31 @@ export const InsertionSort = (
 	    j--
 	}
 
-	// mark all elements up to i as completed
-	completed = Array.from({ length: i + 2 }, (_, idx) => idx)
+	    // mark all elements up to i as completed
+	    completed = Array.from({ length: i + 2 }, (_, idx) => idx)
     }
     animations.push({ arr: [...arr], active: null, completed: [...completed] })
+}
+
+export const SelectionSort = (
+    arr: number[],
+    animations: AnimationState[],
+    completed: number[]
+) => {
+    let curIndex;
+    for (let i = 0; i < arr.length; i++) {
+	curIndex = 0;
+	for (let j = 0; j < arr.length - i; j++) {
+	    animations.push({ arr: [...arr], active: [j, curIndex], completed: [...completed] })
+
+	    if (arr[j] > arr[curIndex]) {
+		curIndex = j 
+		animations.push({ arr: [...arr], active: [j, curIndex], completed: [...completed] })
+	    }
+	}
+	[arr[arr.length - 1 - i], arr[curIndex]] = [arr[curIndex], arr[arr.length - i - 1]]
+	completed.unshift(arr.length - 1 - i)
+	animations.push({ arr: [...arr], active: null, completed: [...completed] })
+    }
 }
 
