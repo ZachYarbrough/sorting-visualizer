@@ -162,7 +162,6 @@ return (
     <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.MERGE_SORT)}>Merge Sort</button>
     </div>
     <div style={{ display: 'flex'}}>	    
-    <button style={{ marginRight: '0.5rem' }} onClick={() => SortChartData(selectedSort)}>Run Visualization</button>
     </div>
     </div>
     <div style={{ margin: '0.5rem 0 1rem 0', display: 'flex', width: '100%', justifyContent: 'space-between' }}>
