@@ -69,9 +69,67 @@ export const SelectionSort = (
 		animations.push({ arr: [...arr], active: [j, curIndex], completed: [...completed] })
 	    }
 	}
+
+	// swap the current index with the last non completed col and set it to completed
 	[arr[arr.length - 1 - i], arr[curIndex]] = [arr[curIndex], arr[arr.length - i - 1]]
 	completed.unshift(arr.length - 1 - i)
 	animations.push({ arr: [...arr], active: null, completed: [...completed] })
     }
 }
 
+export const QuickSort = (
+    arr: number[], 
+    animations: AnimationState[], 
+    completed: number[]
+) => {
+
+    function quickSortHelper(low: number, high: number) {
+        if (low < high) {
+            const pivotPos = partition(low, high)
+
+            // mark pivot as done
+            completed.push(pivotPos)
+            animations.push({ arr: [...arr], active: null, completed: [...completed] })
+
+            // sort left and right partitions
+            quickSortHelper(low, pivotPos - 1)
+            quickSortHelper(pivotPos + 1, high)
+        } else if (low === high) {
+            // one element, trivially sorted
+            if (!completed.includes(low)) {
+                completed.push(low)
+                animations.push({ arr: [...arr], active: null, completed: [...completed] })
+            }
+        }
+    }
+
+    function partition(low: number, high: number): number {
+        const pivot = arr[high]
+        let i = low - 1
+
+        for (let j = low; j < high; j++) {
+            // highlight comparison
+            animations.push({ arr: [...arr], active: [j, high], completed: [...completed] })
+
+            if (arr[j] <= pivot) {
+                i++
+                ;[arr[i], arr[j]] = [arr[j], arr[i]] // semicolon is necessary here
+                animations.push({ arr: [...arr], active: [i, j], completed: [...completed] })
+            }
+        }
+
+        // put pivot in correct spot
+        ;[arr[i + 1], arr[high]] = [arr[high], arr[i + 1]]
+        animations.push({ arr: [...arr], active: [i + 1, high], completed: [...completed] })
+
+        return i + 1
+    }
+
+    quickSortHelper(0, arr.length - 1)
+
+    // mark anything missed
+    for (let k = 0; k < arr.length; k++) {
+        if (!completed.includes(k)) completed.push(k)
+    }
+    animations.push({ arr: [...arr], active: null, completed: [...completed] })
+}

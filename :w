@@ -23,7 +23,7 @@ const Chart = () => {
     })
     const [description, setDescription] = useState<string>('Bubble sort is a simple sorting algorithm that works by repeatedly comparing and swapping adjacent elements if they are out of order. On each pass through the list, the largest remaining element “bubbles up” to its correct position at the end, much like bubbles rising to the surface. This process continues until no more swaps are needed, meaning the list is sorted. Although it is easy to understand and implement, bubble sort is inefficient for large datasets because its average and worst-case time complexity is O(n²), making it practical only for small or nearly sorted lists.')
 
-    const [speed, setSpeed] = useState<number>(250) // delay in ms
+    const [speed, setSpeed] = useState<number>(100) // delay in ms
 
     // Refs are used to dynamically update the chart mid visualization
     const cancelRef = useRef(false)
@@ -76,7 +76,7 @@ const Chart = () => {
 		    worst: 'O(n²)',
 		    space: 'O(1)'
 		})
-		setDescription('Selection sort is a straightforward sorting algorithm that works by repeatedly finding the smallest (or largest) element in the unsorted portion of the list and swapping it with the first element of that portion. This process continues, shrinking the unsorted section and growing the sorted section until the entire list is ordered. While easy to understand and implement, selection sort performs poorly on large datasets, with a time complexity of O(n²) regardless of input order. It is not stable but requires only constant additional space, making it a simple though inefficient sorting method.')
+		setDescription('Selection sort is a straightforward sorting algorithm that works by repeatedly finding the largest (or smallest) element in the unsorted portion of the list and swapping it with the last element of that portion. This process continues, shrinking the unsorted section and growing the sorted section until the entire list is ordered. While easy to understand and implement, selection sort performs poorly on large datasets, with a time complexity of O(n²) regardless of input order. It is not stable but requires only constant additional space, making it a simple though inefficient sorting method.')
 		break
 	    }
 	    case SORT_TYPE.QUICK_SORT: {
@@ -140,26 +140,26 @@ const Chart = () => {
 
 return (
     <div>
-    <div style={{ width: '100%', display: 'flex'}}>
-    <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.BUBBLE_SORT)}>Bubble Sort</button>
-    <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.INSERTION_SORT)}>Insertion Sort</button>
-    <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.SELECTION_SORT)}>Selection Sort</button>
-    <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.QUICK_SORT)}>Quick Sort</button>
+    <div>
+    <button onClick={() => SelectSortType(SORT_TYPE.BUBBLE_SORT)}>Bubble Sort</button>
+    <button onClick={() => SelectSortType(SORT_TYPE.INSERTION_SORT)}>Insertion Sort</button>
+    <button onClick={() => SelectSortType(SORT_TYPE.SELECTION_SORT)}>Selection Sort</button>
+    <button onClick={() => SelectSortType(SORT_TYPE.QUICK_SORT)}>Quick Sort</button>
     </div>
     <div style={{ margin: '0.5rem 0 1rem 0', display: 'flex', width: '100%', justifyContent: 'space-between' }}>
-    {description != '' && <div style={{ width: '60%', textAlign: 'start', padding: '0.5rem' }}>
-	<h1 style={{ margin: '0'}}>{selectedSort.toLowerCase().split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)) .join(' ')}</h1>
+    {description != '' && <div style={{ width: '60%', textAlign: 'start' }}>
+	<h1>{selectedSort.toLowerCase().split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)) .join(' ')}</h1>
 	<p>{description}</p>
 	</div>}
-	{complexityData.best != '' && <div style={{ width: '30%', textAlign: 'start', padding: '0.5rem', marginTop: '0.5rem' }}>
-	    <h1 style={{ marginTop: '0' }}>Complexity</h1>
+	{complexityData.best != '' && <div style={{ width: '30%', textAlign: 'start' }}>
+	    <h1>Complexity</h1>
 	    <div style={{ display: 'flex' }}>
-	    <div style={{ margin: '0 0.5rem 0 0', padding: '0 1rem 0 0', borderRight: '3px dashed white' }}>
+	    <div style={{ margin: '0 0.5rem', border: '1px solid black;' }}>
 	    <p>Best Case</p>
 	    <p>Worst Case</p>
 	    <p>Space Complexity</p>
 	    </div>
-	    <div style={{ marginLeft: '0.5rem' }}>
+	    <div>
 	    <p>{complexityData.best}</p>
 	    <p>{complexityData.worst}</p>
 	    <p>{complexityData.space}</p>
@@ -167,7 +167,7 @@ return (
 	    </div>
 	    </div>}
 	    </div>
-	    <div style={{ display: 'flex', justifyContent: 'space-between', height: '20rem' }}>
+	    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
 	    {chartData.arr.map((col: number, index: number) => {
 		let bg = 'white'
 		if (chartData.active && chartData.active.includes(index)) {
@@ -189,24 +189,24 @@ return (
 		)
 	    })}
 	    </div>
-	    <div style={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', marginTop: '1rem' }}>
-	    <button style={{ marginRight: '0.5rem' }} onClick={generateNewChartData}>Generate New Chart</button>
+	    <div style={{ marginTop: '1rem' }}>
+	    <button onClick={generateNewChartData}>Generate New Chart</button>
 	    <button onClick={resetChart}>Reset Chart</button>
-	    <div style={{ height: '2rem', margin: '0.5rem', borderRight: '3px dashed white'}}></div>
-	    <button style={{ marginRight: '0.5rem' }} onClick={() => SortChartData(selectedSort)}>Run Visualization</button>
+	    <button onClick={() => SortChartData(selectedSort)}>Run Visualization</button>
+	    <div style={{ marginTop: '1rem' }}>
 	    <label>
-	    Slow 
-	    <input
+	    Speed: 
+		<input
 	    type="range"
 	    min="10"
 	    max="500"
 	    step="10"
 	    value={speed}
 	    onChange={(e) => setSpeed(Number(e.target.value))}
-	    style={{ transform: 'rotateY(180deg)', margin: '0 0.5rem', width: '10rem' }}
 	    />
-	    Fast	    
+	    {speed}ms
 	    </label>
+	    </div>
 	    </div>
 	    </div>
 )
