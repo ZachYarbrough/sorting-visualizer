@@ -133,3 +133,59 @@ export const QuickSort = (
     }
     animations.push({ arr: [...arr], active: null, completed: [...completed] })
 }
+
+
+export const MergeSort = (
+  arr: number[],
+  animations: AnimationState[],
+  completed: number[]
+) => {
+  function mergeSortHelper(start: number, end: number) {
+    if (start >= end) return;
+
+    const mid = Math.floor((start + end) / 2);
+    mergeSortHelper(start, mid);
+    mergeSortHelper(mid + 1, end);
+    merge(start, mid, end);
+  }
+
+  function merge(start: number, mid: number, end: number) {
+    let left = arr.slice(start, mid + 1);
+    let right = arr.slice(mid + 1, end + 1);
+    let i = 0, j = 0, k = start;
+
+    while (i < left.length && j < right.length) {
+      animations.push({ arr: [...arr], active: [k], completed: [...completed] });
+
+      if (left[i] <= right[j]) {
+        arr[k] = left[i++];
+      } else {
+        arr[k] = right[j++];
+      }
+
+      animations.push({ arr: [...arr], active: [k], completed: [...completed] });
+      k++;
+    }
+
+    while (i < left.length) {
+      arr[k] = left[i++];
+      animations.push({ arr: [...arr], active: [k], completed: [...completed] });
+      k++;
+    }
+
+    while (j < right.length) {
+      arr[k] = right[j++];
+      animations.push({ arr: [...arr], active: [k], completed: [...completed] });
+      k++;
+    }
+  }
+
+  mergeSortHelper(0, arr.length - 1);
+
+  // Mark all elements as completed **after full sort**
+  for (let k = 0; k < arr.length; k++) {
+    completed.push(k);
+  }
+  animations.push({ arr: [...arr], active: null, completed: [...completed] });
+};
+

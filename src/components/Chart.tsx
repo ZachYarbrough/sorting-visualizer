@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { SORT_TYPE } from '../utils/config'
-import { BubbleSort, InsertionSort, SelectionSort, QuickSort } from '../utils/algorithms'
+import { BubbleSort, InsertionSort, SelectionSort, QuickSort, MergeSort } from '../utils/algorithms'
 
 type AnimationState = {
     arr: number[]
@@ -88,6 +88,15 @@ const Chart = () => {
 		setDescription('Quick sort is a fast, divide-and-conquer sorting algorithm that works by selecting a "pivot" element from the list and partitioning the other elements into two groups: those less than the pivot and those greater than the pivot. It then recursively sorts the two groups and combines them with the pivot to form the sorted list. This approach allows quick sort to efficiently narrow down the problem, often leading to very fast performance. Its average time complexity is O(n log n), though in the worst case (poor pivot choices) it can degrade to O(n²). Despite this, quick sort is widely used because it is efficient, works in-place, and usually outperforms simpler algorithms.')
 		break
 	    }
+	    case SORT_TYPE.MERGE_SORT: {
+		setComplexityData({
+		    best: 'O(n log n)',
+		    worst: 'O(n log n)',
+		    space: 'O(n)'
+		})
+		setDescription('Merge sort is a stable, divide-and-conquer sorting algorithm that works by recursively splitting the list into smaller sublists until each sublist contains only one element. It then merges these sublists in a way that results in a sorted list. By combining smaller sorted lists step by step, merge sort efficiently produces a fully sorted array. This approach guarantees consistent performance regardless of the initial order of the elements. Although it requires additional memory for the temporary arrays used during merging, merge sort is widely valued for its predictability and stability, making it suitable for large datasets and applications where maintaining the original order of equal elements is important.')
+		break
+	    }
 	    default:
 		break
 	}
@@ -121,6 +130,10 @@ const Chart = () => {
 	    QuickSort(arr, animations, completed)
 	    break
 	}
+	case SORT_TYPE.MERGE_SORT: {
+	    MergeSort(arr, animations, completed)
+	    break
+	}
 	default:
 	    break
 
@@ -145,6 +158,7 @@ return (
     <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.INSERTION_SORT)}>Insertion Sort</button>
     <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.SELECTION_SORT)}>Selection Sort</button>
     <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.QUICK_SORT)}>Quick Sort</button>
+    <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.MERGE_SORT)}>Merge Sort</button>
     </div>
     <div style={{ margin: '0.5rem 0 1rem 0', display: 'flex', width: '100%', justifyContent: 'space-between' }}>
     {description != '' && <div style={{ width: '60%', textAlign: 'start', padding: '0.5rem' }}>
