@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { SORT_TYPE } from '../utils/config'
 import { BubbleSort, InsertionSort, SelectionSort, QuickSort, MergeSort } from '../utils/algorithms'
 
@@ -153,12 +153,17 @@ const Chart = () => {
 
 return (
     <div>
+    <div style={{ display: 'flex', justifyContent: 'space-between'}}>
     <div style={{ width: '100%', display: 'flex'}}>
     <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.BUBBLE_SORT)}>Bubble Sort</button>
     <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.INSERTION_SORT)}>Insertion Sort</button>
     <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.SELECTION_SORT)}>Selection Sort</button>
     <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.QUICK_SORT)}>Quick Sort</button>
     <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.MERGE_SORT)}>Merge Sort</button>
+    </div>
+    <div style={{ display: 'flex'}}>	    
+    <button style={{ marginRight: '0.5rem' }} onClick={() => SortChartData(selectedSort)}>Run Visualization</button>
+    </div>
     </div>
     <div style={{ margin: '0.5rem 0 1rem 0', display: 'flex', width: '100%', justifyContent: 'space-between' }}>
     {description != '' && <div style={{ width: '60%', textAlign: 'start', padding: '0.5rem' }}>
