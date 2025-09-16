@@ -8,7 +8,7 @@ type AnimationState = {
     completed: number[]
 }
 
-const Chart = () => {
+const Chart = ({ toggleCRTStyle }: any) => {
     const [chartData, setChartData] = useState<AnimationState>({
 	arr: [],
 	active: null,
@@ -152,7 +152,8 @@ const Chart = () => {
     }
 
 return (
-    <div>
+    <div id="chart">
+    <div style={{ margin: '0 auto', alignSelf: 'center', width: '80%' }}>
     <div style={{ display: 'flex', justifyContent: 'space-between'}}>
     <div style={{ width: '100%', display: 'flex'}}>
     <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.BUBBLE_SORT)}>Bubble Sort</button>
@@ -161,6 +162,7 @@ return (
     <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.QUICK_SORT)}>Quick Sort</button>
     <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.MERGE_SORT)}>Merge Sort</button>
     </div>
+    <button style={{ marginRight: '0.5rem', width: '12rem' }} onClick={() => toggleCRTStyle()}>Toggle CRT Filter</button>
     <div style={{ display: 'flex'}}>	    
     </div>
     </div>
@@ -225,6 +227,7 @@ return (
 	    />
 	    Fast	    
 	    </label>
+	    </div>
 	    </div>
 	    </div>
 )
