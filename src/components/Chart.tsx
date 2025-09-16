@@ -162,7 +162,7 @@ return (
     <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.QUICK_SORT)}>Quick Sort</button>
     <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.MERGE_SORT)}>Merge Sort</button>
     </div>
-    <button style={{ marginRight: '0.5rem', width: '12rem' }} onClick={() => toggleCRTStyle()}>Toggle CRT Filter</button>
+    <button style={{ marginRight: '0.5rem', width: '13rem' }} onClick={() => toggleCRTStyle()}>Toggle CRT Filter</button>
     <div style={{ display: 'flex'}}>	    
     </div>
     </div>
