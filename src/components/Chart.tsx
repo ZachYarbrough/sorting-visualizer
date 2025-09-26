@@ -156,11 +156,11 @@ return (
     <div style={{ margin: '0 auto', alignSelf: 'center', width: '80%' }}>
     <div style={{ display: 'flex', justifyContent: 'space-between'}}>
     <div style={{ width: '100%', display: 'flex'}}>
-    <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.BUBBLE_SORT)}>Bubble Sort</button>
-    <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.INSERTION_SORT)}>Insertion Sort</button>
-    <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.SELECTION_SORT)}>Selection Sort</button>
-    <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.QUICK_SORT)}>Quick Sort</button>
-    <button style={{ marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.MERGE_SORT)}>Merge Sort</button>
+    <button style={{ color: 'white', marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.BUBBLE_SORT)}>Bubble Sort</button>
+    <button style={{ color: 'white', marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.INSERTION_SORT)}>Insertion Sort</button>
+    <button style={{ color: 'white', marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.SELECTION_SORT)}>Selection Sort</button>
+    <button style={{ color: 'white', marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.QUICK_SORT)}>Quick Sort</button>
+    <button style={{ color: 'white', marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.MERGE_SORT)}>Merge Sort</button>
     </div>
     <button style={{ marginRight: '0.5rem', width: '13rem' }} onClick={() => toggleCRTStyle()}>Toggle CRT Filter</button>
     <div style={{ display: 'flex'}}>	    
@@ -210,10 +210,10 @@ return (
 	    })}
 	    </div>
 	    <div style={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', marginTop: '1rem' }}>
-	    <button style={{ marginRight: '0.5rem' }} onClick={generateNewChartData}>Generate New Chart</button>
-	    <button onClick={resetChart}>Reset Chart</button>
+	    <button style={{ color: 'white', marginRight: '0.5rem' }} onClick={generateNewChartData}>Generate New Chart</button>
+	    <button style={{ color: 'white' }} onClick={resetChart}>Reset Chart</button>
 	    <div style={{ height: '2rem', margin: '0.5rem', borderRight: '3px dashed white'}}></div>
-	    <button style={{ marginRight: '0.5rem' }} onClick={() => SortChartData(selectedSort)}>Run Visualization</button>
+	    <button style={{ color: 'white', marginRight: '0.5rem' }} onClick={() => SortChartData(selectedSort)}>Run Visualization</button>
 	    <label>
 	    Slow 
 	    <input
