@@ -41,6 +41,7 @@
     .sm-display-none {
 	display: none !important;
     }
+
     /* Increase CRT height without affecting other layout */
     #monitor {
 	height: 100%; /* doubled from default */

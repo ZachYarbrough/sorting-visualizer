@@ -247,7 +247,7 @@ return (
 	    </div>
 	    </div>}
 	    </div>
-	    <div style={{ marginTop: '0.5rem', display: 'flex', justifyContent: 'space-between', height: '20rem' }}>
+	    <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'space-between', height: '20rem' }}>
 	    {chartData.arr.map((col: number, index: number) => {
 		let bg = 'white'
 		if (chartData.active && chartData.active.includes(index)) {
