@@ -11,12 +11,10 @@ function App() {
 
     return (
 	<div id="monitor" className={crtStyle}>
-	<div id="bezel" className={crtStyle}>
-	<div id="crt" className={crtStyle}>
-	<div id="scanline" className={crtStyle}></div>
-	<Chart toggleCRTStyle={toggleCRTStyle} />
-	</div>
-	</div>
+	    <div id="crt" className={crtStyle}>
+		<div id="scanline" className={crtStyle}></div>
+		<Chart toggleCRTStyle={toggleCRTStyle} />
+	    </div>
 	</div>
     )
 }

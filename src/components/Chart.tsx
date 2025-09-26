@@ -153,20 +153,80 @@ const Chart = ({ toggleCRTStyle }: any) => {
 
 return (
     <div id="chart">
-    <div style={{ margin: '0 auto', alignSelf: 'center', width: '80%' }}>
+    <div style={{ margin: '0 auto', alignSelf: 'center', width: '100%' }}>
     <div style={{ display: 'flex', justifyContent: 'space-between'}}>
-    <div style={{ width: '100%', display: 'flex'}}>
-    <button style={{ color: 'white', marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.BUBBLE_SORT)}>Bubble Sort</button>
-    <button style={{ color: 'white', marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.INSERTION_SORT)}>Insertion Sort</button>
-    <button style={{ color: 'white', marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.SELECTION_SORT)}>Selection Sort</button>
-    <button style={{ color: 'white', marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.QUICK_SORT)}>Quick Sort</button>
-    <button style={{ color: 'white', marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.MERGE_SORT)}>Merge Sort</button>
+    <div className="sm-display-none" style={{ width: '100%', display: 'flex'}}>
+    <button style={{ border: selectedSort === SORT_TYPE.BUBBLE_SORT ? 'solid 1px white' : '', color: 'white', marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.BUBBLE_SORT)}>Bubble Sort</button>
+    <button style={{ border: selectedSort === SORT_TYPE.INSERTION_SORT ? 'solid 1px white' : '', color: 'white', marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.INSERTION_SORT)}>Insertion Sort</button>
+    <button style={{ border: selectedSort === SORT_TYPE.SELECTION_SORT ? 'solid 1px white' : '', color: 'white', marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.SELECTION_SORT)}>Selection Sort</button>
+    <button style={{ border: selectedSort === SORT_TYPE.QUICK_SORT ? 'solid 1px white' : '', color: 'white', marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.QUICK_SORT)}>Quick Sort</button>
+    <button style={{ border: selectedSort === SORT_TYPE.MERGE_SORT ? 'solid 1px white' : '', color: 'white', marginRight: '0.5rem' }} onClick={() => SelectSortType(SORT_TYPE.MERGE_SORT)}>Merge Sort</button>
     </div>
-    <button style={{ marginRight: '0.5rem', width: '13rem' }} onClick={() => toggleCRTStyle()}>Toggle CRT Filter</button>
-    <div style={{ display: 'flex'}}>	    
+    <button className='sm-display-none' style={{ marginRight: '0.5rem', width: '13rem' }} onClick={() => toggleCRTStyle()}>Toggle CRT Filter</button>
     </div>
+    {/* Mobile / smaller screens */}
+    <div className="sm-display" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', width: '100%' }}>
+      <button
+	style={{
+	  color: 'white',
+	  width: '100%'
+	}}
+	onClick={() => toggleCRTStyle()}
+      >
+	Toggle CRT Filter
+      </button>
+      <button
+	style={{
+	  border: selectedSort === SORT_TYPE.BUBBLE_SORT ? 'solid 1px white' : '',
+	  color: 'white',
+	  width: '100%'
+	}}
+	onClick={() => SelectSortType(SORT_TYPE.BUBBLE_SORT)}
+      >
+	Bubble Sort
+      </button>
+      <button
+	style={{
+	  border: selectedSort === SORT_TYPE.INSERTION_SORT ? 'solid 1px white' : '',
+	  color: 'white',
+	  width: '100%'
+	}}
+	onClick={() => SelectSortType(SORT_TYPE.INSERTION_SORT)}
+      >
+	Insertion Sort
+      </button>
+      <button
+	style={{
+	  border: selectedSort === SORT_TYPE.SELECTION_SORT ? 'solid 1px white' : '',
+	  color: 'white',
+	  width: '100%'
+	}}
+	onClick={() => SelectSortType(SORT_TYPE.SELECTION_SORT)}
+      >
+	Selection Sort
+      </button>
+      <button
+	style={{
+	  border: selectedSort === SORT_TYPE.QUICK_SORT ? 'solid 1px white' : '',
+	  color: 'white',
+	  width: '100%'
+	}}
+	onClick={() => SelectSortType(SORT_TYPE.QUICK_SORT)}
+      >
+	Quick Sort
+      </button>
+      <button
+	style={{
+	  border: selectedSort === SORT_TYPE.MERGE_SORT ? 'solid 1px white' : '',
+	  color: 'white',
+	  width: '100%'
+	}}
+	onClick={() => SelectSortType(SORT_TYPE.MERGE_SORT)}
+      >
+	Merge Sort
+      </button>
     </div>
-    <div style={{ margin: '0.5rem 0 1rem 0', display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+    <div className='sm-display-none' style={{ margin: '0.5rem 0 1rem 0', display: 'flex', width: '100%', justifyContent: 'space-between' }}>
     {description != '' && <div style={{ width: '60%', textAlign: 'start', padding: '0.5rem' }}>
 	<h1 style={{ margin: '0'}}>{selectedSort.toLowerCase().split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)) .join(' ')}</h1>
 	<p>{description}</p>
@@ -187,7 +247,7 @@ return (
 	    </div>
 	    </div>}
 	    </div>
-	    <div style={{ display: 'flex', justifyContent: 'space-between', height: '20rem' }}>
+	    <div style={{ marginTop: '0.5rem', display: 'flex', justifyContent: 'space-between', height: '20rem' }}>
 	    {chartData.arr.map((col: number, index: number) => {
 		let bg = 'white'
 		if (chartData.active && chartData.active.includes(index)) {
@@ -201,15 +261,17 @@ return (
 		    style={{
 			height: `${col}rem`,
 			backgroundColor: bg,
-			width: '20px',
+			minWidth: '5px',
+			maxWidth: '30px',
 			margin: 'auto 0.25rem 0 0.25rem',
+			flex: '1 1 0',
 			transition: 'height 0.1s ease'
 		    }}
 		    />
 		)
 	    })}
 	    </div>
-	    <div style={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', marginTop: '1rem' }}>
+	    <div className='sm-display-none' style={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', marginTop: '1rem' }}>
 	    <button style={{ color: 'white', marginRight: '0.5rem' }} onClick={generateNewChartData}>Generate New Chart</button>
 	    <button style={{ color: 'white' }} onClick={resetChart}>Reset Chart</button>
 	    <div style={{ height: '2rem', margin: '0.5rem', borderRight: '3px dashed white'}}></div>
@@ -228,7 +290,56 @@ return (
 	    Fast	    
 	    </label>
 	    </div>
+	    {/* Mobile / smaller screens */}
+	    <div className="sm-display" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', width: '100%', marginTop: '1rem', alignItems: 'center' }}>
+	      <button style={{ color: 'white', width: '100%' }} onClick={generateNewChartData}>
+		Generate New Chart
+	      </button>
+	      <button style={{ color: 'white', width: '100%' }} onClick={resetChart}>
+		Reset Chart
+	      </button>
+	      <div style={{ width: '100%', height: '0.5rem', borderTop: '3px dashed white', margin: '0.5rem 0 0 0' }}></div>
+	      <button style={{ color: 'white', width: '100%' }} onClick={() => SortChartData(selectedSort)}>
+		Run Visualization
+	      </button>
+	      <label style={{ display: 'flex', alignItems: 'center', width: '100%', gap: '0.5rem', color: 'white' }}>
+		Slow
+		<input
+		  type="range"
+		  min="10"
+		  max="500"
+		  step="10"
+		  value={speed}
+		  onChange={(e) => setSpeed(Number(e.target.value))}
+		  style={{ flex: '1', width: '100%' }}
+		/>
+		Fast
+	      </label>
 	    </div>
+	    </div>
+    <div className='sm-display' style={{ margin: '0.5rem 0 1rem 0', display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center' }}>
+    {complexityData.best != '' && <div style={{padding: '0.5rem', marginTop: '0.5rem' }}>
+	    <h1 style={{ textAlign: 'start', marginTop: '0' }}>Complexity</h1>
+	    <div style={{ display: 'flex' }}>
+	    <div style={{ margin: '0 0.5rem 0 0', padding: '0 1rem 0 0', borderRight: '3px dashed white' }}>
+	    <p>Best Case</p>
+	    <p>Worst Case</p>
+	    <p>Space Complexity</p>
+	    </div>
+	    <div style={{ marginLeft: '0.5rem' }}>
+	    <p>{complexityData.best}</p>
+	    <p>{complexityData.worst}</p>
+	    <p>{complexityData.space}</p>
+	    </div>
+	    </div>
+	    </div>}
+
+    {description != '' && <div style={{ textAlign: 'center', padding: '0.5rem' }}>
+	<h1 style={{ margin: '0'}}>{selectedSort.toLowerCase().split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)) .join(' ')}</h1>
+	<p>{description}</p>
+	</div>}
+	</div>
+
 	    </div>
 )
 }
